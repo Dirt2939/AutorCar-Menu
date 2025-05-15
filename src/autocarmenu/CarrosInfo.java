@@ -7,16 +7,16 @@ package autocarmenu;
 
 public class CarrosInfo {
     String modelo, cor, placa, marca;
-    int ano, quantidadeCarros;
+    int ano, id;
     
     public CarrosInfo(String modelo, String cor, String placa, int ano, String
-            marca, int quantidadeCarros) {
+            marca, int id) {
         this.modelo = modelo;
         this.ano = ano;
         this.cor = cor;
         this.placa = placa;
         this.marca = marca;
-        this.quantidadeCarros = quantidadeCarros;
+        this.id = id;
     }
     
     public String formatarTexto(String t) {
@@ -43,7 +43,7 @@ public class CarrosInfo {
                +ano+ " | "
                +formatarTexto(cor)+" | "
                +formatarPlaca(placa)+" / "
-               +"ID: #"+quantidadeCarros;
+               +"ID: #"+id;
     }
     
 }

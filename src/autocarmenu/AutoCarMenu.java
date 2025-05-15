@@ -6,11 +6,12 @@ import java.util.Scanner;
 public class AutoCarMenu {
 
     static String modelo, cor, placa, marca;
-    static int ano, quantidadeCarros;
+    static int ano, quantidadeCarros, idMod;
 
     static ArrayList<CarrosInfo> carros = new ArrayList<>();
     static ArrayList<CarrosInfo> carrosCache = new ArrayList<>();
     static Scanner ler = new Scanner(System.in);
+    static CarrosInfo carroEncontrado = null;
 
     public static void main(String[] args) {
 
@@ -21,7 +22,9 @@ public class AutoCarMenu {
             System.out.println("\n---AutoCar Menu---");
             System.out.println("1 - Lista Carros");
             System.out.println("2 - Adicionar Carros");
-            System.out.println("4 - Sair");
+            System.out.println("3 - Modificar Carro");
+            System.out.println("4 - Remover Carro");
+            System.out.println("5 - Sair");
             op = ler.nextInt();
             ler.nextLine();
 
@@ -33,6 +36,7 @@ public class AutoCarMenu {
                     adicionarCarro();
                     break;
                 case 3:
+                    modificarCarroMenu();
                     break;
                 case 4:
                     break;
@@ -95,19 +99,69 @@ public class AutoCarMenu {
             for (CarrosInfo c : carros) {
                 System.out.println(c);
             }
-            
-            System.out.println("1 - Pesquisar carro");
-            System.out.println("1 - Modificar Carro");
-            System.out.println("2 - Remover Carro");
-            System.out.println("3 - Voltar ao menu");
+
+            System.out.println("1 - Voltar");
             op = ler.nextInt();
 
-        } while (op != 3);
-    }
-    
-    public static void modificarCarro() {
-        int op = 0;
-        System.out.println("\n---AutoCar Car Mod---");
+        } while (op != 1);
     }
 
+    public static void modificarCarroMenu() {
+        String aj = "", infoMod = "";
+        int op = 0;
+
+        System.out.println("\n---AutoCar Car Mod---");
+        do {
+
+            System.out.println("Qual o ID do carro que voce quer modificar?");
+            System.out.println("(Caso não saiba digite: listar)");
+            aj = ler.nextLine();
+
+            try {
+                idMod = Integer.parseInt(aj);
+            } catch (NumberFormatException e) {
+                if (aj.equalsIgnoreCase("listar")) {
+                    listarCarro();
+                } else {
+                    System.out.println("Erro inesperado, recomeçando...");
+                    continue;
+                }
+            }
+
+            for (CarrosInfo c : carros) {
+                if (c.id == idMod) {
+                    System.out.println(c);
+                    System.out.println("Esse é o carro desejado? (s/n)");
+                    String op2 = ler.nextLine();
+
+                    if (op2.equalsIgnoreCase("s")) {
+                        carroEncontrado = c;
+                        
+                        System.out.println("Digite qual informação"
+                                + " queres modificar: ");
+                        infoMod = ler.nextLine();
+                        
+                        modificarCarro(infoMod, c);
+                        
+                    } else {
+                        System.out.println("Verifique na tabela...");
+                        listarCarro();
+                    }
+                }
+            }
+
+        } while (op != 5);
+    }
+    
+    public static String modificarCarro(String info, carros caro) {
+        String novaInfo = "";
+        
+        if (info.equalsIgnoreCase("modelo")) {
+            System.out.println("Digite o novo modelo: ");
+            return carroEncontrado.modelo = ler.nextLine();
+        }
+        
+        return null;
+    }
+ 
 }
