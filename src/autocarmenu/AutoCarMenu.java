@@ -113,21 +113,52 @@ public class AutoCarMenu {
         System.out.println("\n---AutoCar Car Mod---");
         do {
 
-            System.out.println("Qual o ID do carro que voce quer modificar?");
-            System.out.println("(Caso não saiba digite: listar)");
-            aj = ler.nextLine();
-
-            try {
-                idMod = Integer.parseInt(aj);
-            } catch (NumberFormatException e) {
-                if (aj.equalsIgnoreCase("listar")) {
-                    listarCarro();
+            if (carroEncontrado != null) {
+                System.out.println("Quer continuar a modificar o carro anterior"
+                        + "? s/n");
+                System.out.println(carroEncontrado);
+                String escolha = ler.nextLine();
+                if (escolha.equalsIgnoreCase("s")) {
+                    // Só continua
                 } else {
-                    System.out.println("Erro inesperado, recomeçando...");
-                    continue;
+                    System.out.println("Qual o ID do carro que voce quer modificar?");
+                    System.out.println("(Caso não saiba digite: listar)");
+                    aj = ler.nextLine();
+
+                    try {
+                        idMod = Integer.parseInt(aj);
+                    } catch (NumberFormatException e) {
+                        if (aj.equalsIgnoreCase("listar")) {
+                            listarCarro();
+                            aj = ""; // Reinicia a variavel de resposta
+                        } else {
+                            System.out.println("Erro inesperado, voltando ao menu"
+                                + "...");
+                            break;
+                        }
+                    }
+                }
+
+            } else {
+                System.out.println("Qual o ID do carro que voce quer modificar?");
+                System.out.println("(Caso não saiba digite: listar)");
+                aj = ler.nextLine();
+
+                try {
+                    idMod = Integer.parseInt(aj);
+                } catch (NumberFormatException e) {
+                    if (aj.equalsIgnoreCase("listar")) {
+                        listarCarro();
+                    } else {
+                        System.out.println("Erro inesperado, voltando ao menu"
+                                + "...");
+                        break;
+                    }
                 }
             }
 
+            aj = ""; // Reinicia a variavel de resposta
+            
             for (CarrosInfo c : carros) {
                 if (c.id == idMod) {
                     System.out.println(c);
@@ -136,32 +167,58 @@ public class AutoCarMenu {
 
                     if (op2.equalsIgnoreCase("s")) {
                         carroEncontrado = c;
-                        
+
                         System.out.println("Digite qual informação"
                                 + " queres modificar: ");
                         infoMod = ler.nextLine();
-                        
+
                         modificarCarro(infoMod, c);
-                        
+
                     } else {
                         System.out.println("Verifique na tabela...");
                         listarCarro();
                     }
+
+                    System.out.println(c);
+                    System.out.println("Correto? s/n");
+                    String i = ler.nextLine();
+
+                    if (i.equalsIgnoreCase("n")) {
+
+                    } else {
+                        System.out.println("\n---AutoCar Car Mod---");
+                        System.out.println("1 - Modificar o mesmo carro");
+                        System.out.println("2 - Modificar outro carro");
+                        System.out.println("3 - voltar ao menu");
+                        int e = ler.nextInt();
+                        ler.nextLine();
+
+                        if (e == 1) {
+
+                        } else if (e == 2) {
+                            // Só repete o loop
+                        } else {
+                            e = 1;
+                        }
+
+                    }
+
                 }
             }
 
-        } while (op != 5);
+        } while (op != 1);
     }
-    
-    public static String modificarCarro(String info, carros caro) {
+
+    public static String modificarCarro(String info, CarrosInfo c) {
         String novaInfo = "";
-        
+
         if (info.equalsIgnoreCase("modelo")) {
             System.out.println("Digite o novo modelo: ");
-            return carroEncontrado.modelo = ler.nextLine();
+            c.modelo = ler.nextLine();
+            return c.modelo;
         }
-        
+
         return null;
     }
- 
+
 }
